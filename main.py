@@ -1,14 +1,15 @@
 from tkinter import *
 from tkinter import filedialog
 import os
-
+import docx
 
 class Engine():
     add = []  #stores selected file addresses
     filename = []  #stores selected file names
     doc = None  #doc object to work on current word file
     docf=None   #Final doc object
-    n=0 #number of lines in the doc file
+    n = 0  #number of lines in the doc file
+    N = 0  #total number of files selected
 
     def __init__(self):
         pass
@@ -45,7 +46,25 @@ class Engine():
 
         l31.config(text=temp)
 
+    
+    def enginecontrol(self):
+        for i in range(self.N):
+            self.loaddoc(i)
+            #symspellpy correction
+            #punctuation correction
+            #language-check correction
 
+    
+    def loaddoc(self, i):
+        os.chdir(self.add[i])  #changes the working directory
+        
+        self.doc = docx.Document(self.filename[i])
+        self.doc.save("temp.docx")  #creating a copy of document so that original doc is not lost
+
+        self.doc = docx.Document(self.filename[i])
+        self.n = len(self.doc.paragraphs)
+        
+        self.docf=docx.Document()   #initializing result document 
 
 e=Engine()
 root = Tk()
@@ -79,7 +98,7 @@ l30.grid(row=3,column=0,padx=2,pady=2,sticky=NW)
 l31=Label(f2,text="")
 l31.grid(row=3, column=1, padx=2, pady=2, sticky=W)
 
-b41=Button(f2,text="Go!",command=None,width=40,height=1)
+b41=Button(f2,text="Go!",command=lambda:e.enginecontrol(),width=40,height=1)
 b41.grid(row=4, column=0, padx=2, pady=2, sticky=W, columnspan=2)
 b41.config(relief="solid")
 
