@@ -1,7 +1,7 @@
 from tkinter import *
 
 root = Tk()
-root.title("Grammar Checker")
+root.title("Document Formatter and Corrector")
 root.geometry("800x400")
 
 f1 = Frame(root, width=200, height=400)
