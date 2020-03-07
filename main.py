@@ -2,6 +2,10 @@ from tkinter import *
 from tkinter import filedialog
 import os
 import docx
+from itertools import islice
+import pkg_resources
+from symspellpy import SymSpell
+
 
 class Engine():
     add = []  #stores selected file addresses
@@ -12,8 +16,8 @@ class Engine():
     N = 0  #total number of files selected
 
     def __init__(self):
-        pass
-
+        self.loadsymspell()
+    
     def inputfile(self, root):
         del self.add[::], self.filename[::]
         
@@ -57,6 +61,14 @@ class Engine():
             #symspellpy correction
             #punctuation correction
             #language-check correction
+
+    def loadsymspell(self):
+        sym_spell = SymSpell()
+        dictionary_path = pkg_resources.resource_filename("symspellpy", "frequency_dictionary_en_82_765.txt")
+        sym_spell.load_dictionary(dictionary_path, 0, 1)
+
+
+
 
     
     def loaddoc(self, i):
@@ -103,7 +115,7 @@ l21.grid(row=2,column=1,padx=2,pady=2,sticky=W,columnspan=3)
 l30=Label(f2,text="File Selected:")
 l30.grid(row=3,column=0,padx=2,pady=2,sticky=W)
 l31=Label(f2,text="None")
-l31.grid(row=3, column=1, padx=2, pady=2,sticky=W)
+l31.grid(row=3, column=1, padx=2, pady=2,sticky=N+W)
 
 #Go button
 b41=Button(f2,text="Go!",command=lambda:e.enginecontrol(),width=60,height=1)
